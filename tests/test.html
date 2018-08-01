@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="test.css">
+        <title>Ceci est une page HTML de test avec des balises PHP <?php echo "voici du txt via PHP"; ?></title>
+    </head>
+
+    <body>
+        <div id="main_wrapper">
+            <header>
+                <h2>Bonjour <?php echo "Ben"; ?></h2>
+            </header>
+            <section>
+                <p>
+                    Cette page contient du code HTML avec des balises PHP.<br />
+                    MAIS LE PHP NE s'affiche pas car EXTENSION .HTML <br />
+                    <?php echo "voici du txt écrit via instruction echo"; ?>
+                    Voici quelques petits tests :
+                </p>
+                <ul>
+                    <li id="blue">Texte en bleu</li>
+                    <li id="red">Texte en rouge</li>
+                    <li id="green">Texte en vert</li>
+                </ul>
+
+                <?php
+                echo "hello je suis là grace au PHP";
+                /* encore du PHP
+                toujours du PHP */
+                ?>
+            </section>
+            <footer>
+
+            </footer>
+        </div>
+        <script type="text/Javascript" src="test.js">
+        </script>
+    </body>
+</html>
