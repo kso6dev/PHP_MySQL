@@ -35,7 +35,61 @@
                 echo date("d/m/Y h:i:s");
                 /* encore du PHP
                 toujours du PHP */
+                echo "<br />";
+                $visitor_age = 31;
+                $visitor_name = "Ben";
+                $visitor_height = "1.75";
+                $visitor_logged = false;
+                $visitor_account = null;
+                echo "le visiteur a $visitor_age ans, il s'appelle $visitor_name et il mesure $visitor_height.";
+                echo "<br />";
+                echo 'j\' ai '.$visitor_age;
+                echo "<br />";
+                if ($visitor_age > 30 && $visitor_name == "Ben")
+                {
+                    echo "&& works";
+                }
+                if ($visitor_age < 32 AND $visitor_account == NULL)
+                {
+                    echo " AND works too";
+                }
+                if ($visitor_account == null OR $visitor_age > 33)
+                {
+                    echo " OR also works";
+                }
+                if (!$visitor_logged || $visitor_name == "rene")
+                {
+                    echo " || also also !notworking";
+                }
+                if ($visitor_age == 31)
+                {
+                ?>
+                <br />
+                <strong>Waou!</strong> On peut donc ajouter du HTML en PHP sans utiliser echo..
+                <?php
+                }
+                else
+                {
+                ?>
+                <br />
+                <strong>faux!</strong> On ne peut pas ajouter du HTML en PHP sans utiliser echo!
+                <?php
+                }
+
+                echo "<br/>";
+                switch ($visitor_name)
+                {
+                    case "Ben": 
+                        echo "hey master";
+                    break;
+                    case "Sonia":
+                        echo "hey sweety";
+                    break;
+                    default:
+                        echo 'bonjour '.$visitor_name.' et bienvenue';
+                }
                 echo "</p>";
+
                 ?>
             </section>
             <footer>
