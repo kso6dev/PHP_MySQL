@@ -45,10 +45,10 @@ catch (Exception $e)
     <p>
         <?php
         $result->closeCursor();
-        $result = $bdd->query('select name from video_games where console=\'Xbox\' ORDER BY name DESC') or die(print_r($bdd->errorInfo()));
+        $result = $bdd->query('select UPPER(name) as name_up, console from video_games where console=\'Xbox\' ORDER BY name DESC') or die(print_r($bdd->errorInfo()));
         while ($rec = $result->fetch())
         {   
-            echo $rec['name'].'<br>';
+            echo $rec['name_up'].'<br>';
         }
         $result->closeCursor();
         ?>

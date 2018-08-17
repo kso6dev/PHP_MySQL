@@ -85,13 +85,13 @@
         {
             die('Erreur : '.$e->getMessage());
         }
-        $query = $bdd->query('select * from simple_chat ORDER BY id DESC LIMIT 0, 20') or die (print_r($bdd->errorInfo()));
+        $query = $bdd->query('select * from simple_chat ORDER BY id DESC LIMIT 0, 10') or die (print_r($bdd->errorInfo()));
         while ($rec = $query->fetch())
         {
         ?>
             <p>
                 <?php
-                $time = strtotime($rec['date']);
+                $time = strtotime($rec['creation_date']);
                 $date = date('d/m/Y', $time);
                 $hour = date('H:i:s', $time);
                 echo 'le '.$date.' à '.$hour.', '; 
@@ -100,6 +100,13 @@
                 <span style="border: 1px solid grey; padding: 1px 10px 1px 10px;">
                     <em> <?php echo $rec['message']; ?> </em>
                 </span>
+                <br>
+                <?php
+                $time = strtotime($rec['server_date']);
+                $date = date('d/m/Y', $time);
+                $hour = date('H:i:s', $time);
+                echo 'le serveur a enregistré le message à '.$hour.', le '.$date;  
+                ?>
             </p>
         <?php
         }

@@ -1,5 +1,12 @@
 <?php 
     function execWrittingQuerySecured($bdd, $action, $tableName, $fieldsAndValues, $whereFieldAndValue, $andFieldsAndValues){
+        //il faudrait gérer les ORDER BY, GROUP BY etc...
+        //il faudrait gérer les date et formats:
+        // SELECT DAY(field) AS dayf, HOUR(field) AS hourf FROM...
+        //SELECT DATE_FORMAT(field, '%d/%m/%Y %Hh%imin%ss') AS formated_date FROM...
+        //il faudrait gérer le select
+        //il faudrait gérer les jointures???
+        
         $query = "";
         
         $fieldsAndValuesCount = count($fieldsAndValues);

@@ -31,7 +31,7 @@
             array_push($fieldsAndValues,array("message", $message));
             
             $date = date('Y-m-d H:i:s');
-            array_push($fieldsAndValues,array("date", $date));
+            array_push($fieldsAndValues,array("creation_date", $date));
 
         }
         $query = execWrittingQuerySecured($bdd, "insert", "simple_chat", $fieldsAndValues, $whereFieldAndValue, $andFieldsAndValues);
