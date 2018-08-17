@@ -1,17 +1,47 @@
 <?php
+    //starting session before any html code
+    session_start();
 
     $nickname = '';
-    $logout = false;
+    $logged = false;
+    $instruction = '';
 
-    if (isset($_POST['logout']))
+    //check if user is connected (by session)
+    if (isset($_SESSION['nickname']))
     {
-        $logout = true;
+        $logged = true;
+        $nickname = htmlspecialchars($_SESSION['nickname']);
+    }
+    else //check if user try to connect and if ok we will create its session
+    if (isset($_POST['login']))
+    {
+        if ($_POST['login'] == "go")
+        {
+            if (isset($_POST['nickname']))
+            {
+                $nickname = htmlspecialchars($_POST['nickname']);
+            }
+            if ($nickname != '')
+            {
+                $logged = true;
+                $_SESSION["nickname"] = $nickname;
+            }
+            else
+            {
+                $logged = false;
+                $instruction = 'Vous devez renseigner votre pseudo pour pouvoir accéder au chat:';
+            }
+        }
     }
     
-    if (isset($_POST['nickname']))
+    //check if deconnexion then destroy session vars
+    if (isset($_POST['logout']))
     {
-        $nickname = htmlspecialchars($_POST['nickname']);
+        if ($_POST['logout'] == "go")
+        $logged = false;
+        session_destroy();
     }
+    
 ?>
 <!DOCTYPE <!DOCTYPE html>
 <html>
@@ -20,36 +50,33 @@
     <title>Accueil chat</title>
 </head>
 <body>
-
-
-    <h2>Identification</h2>
-    <form method="post" action="index.php">
-        Veuillez vous identifier: <br>
-        <label for="register">Créer un compte</label>: <input type="radio" name="registerorlogin" id="register" value="register" checked> <br>
-        <label for="login">Se connecter</label>: <input type="radio" name="registerorlogin" id="login" value="login"> <br>
-        <label for="nickname">Pseudo</label>: <input type="text" name="nickname" id="nickname"> <br>
-        <label for="password">Mot de passe</label>: <input type="password" name="password" id="password"> <br>
-        <input type="submit" id="connection" value="connexion">
-    </form>
-
-    <form method="post" action="index.php">
-        Déconnexion: <br>
-        <input type="submit" id="logoutbutton" value="déconnexion">
-        <input type="hidden" name="logout" id="logout" value="go">
-    </form>
-    
-    <h2>Mini chat</h2>
-    <form method="post" action="minichat_post.php">
-        Bonjour <?php echo $nickname; ?>! <br>
-        Vous pouvez poster votre message: <br>
-        <textarea name="message" id="message" cols="50" rows="10">
-
-        </textarea>
-        <br>
-        <input type="submit" id="submit" value="soumettre">
-    </form>
-
     <?php 
+    if (!$logged)
+    {
+        if ($instruction == "")
+        {
+            $instruction = 'Veuillez vous identifier pour accéder au chat:';
+        }
+    ?>
+        <form method="post" action="index.php">
+            <?php echo $instruction; ?> <br>
+            <label for="nickname">Pseudo</label>: <input type="text" name="nickname" id="nickname"> <br>
+            <input type="submit" id="connection" value="connexion">
+            <input type="hidden" name="login" id="login" value="go"> <br>
+        </form>
+    <?php
+    }
+    else
+    {
+    ?>
+        <form method="post" action="minichat_post.php">
+            Bonjour <?php echo $nickname; ?>! <br>
+            Vous pouvez poster votre message: <br>
+            <textarea name="message" id="message" cols="50" rows="1"> </textarea>
+            <input type="submit" id="submit" value="envoyer">
+            <input type="hidden" id="nickname" name="nickname" value=<?php echo '"'.$nickname.'"';?>>
+        </form>
+    <?php
         try
         {
             $bdd = new PDO('mysql:host=localhost;dbname=test_ocr;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));//to get sql queries better errors
@@ -58,40 +85,33 @@
         {
             die('Erreur : '.$e->getMessage());
         }
-
         $query = $bdd->query('select * from simple_chat ORDER BY id DESC LIMIT 0, 20') or die (print_r($bdd->errorInfo()));
         while ($rec = $query->fetch())
         {
-    ?>
-            <p>
-                Message de <?php echo $rec['nickname']; ?>: <br>
-                <em> <?php echo $rec['message']; ?> </em> <br>
-                <?php echo $rec['date']; ?>
-            </p>
-    <?php
-        }
-        
-        $query->closeCursor();
-    ?>
-    <footer>
-        <?php 
-            include("kso_sqllib.php"); 
-            $fieldsAndValues = array();
-            $andFieldsAndValues = array();
-            $whereFieldAndValue = array();
-            /*
-            array_push($fieldsAndValues,array("nickname","saucisse"));
-            array_push($fieldsAndValues,array("message","test modification via ma library"));
-
-            array_push($whereFieldAndValue,array("nickname","saucisse"));
-            array_push($andFieldsAndValues,array("message","test modification via ma library"));
-
-            $query = execWrittingQuerySecured($bdd, "update", "simple_chat", $fieldsAndValues, $whereFieldAndValue, $andFieldsAndValues);
-            echo $query;
-            */
         ?>
-
-        
-    </footer>
+            <p>
+                <?php
+                $time = strtotime($rec['date']);
+                $date = date('d/m/Y', $time);
+                $hour = date('H:i:s', $time);
+                echo 'le '.$date.' à '.$hour.', '; 
+                ?> - 
+                <?php echo $rec['nickname']; ?> a dit:  
+                <span style="border: 1px solid grey; padding: 1px 10px 1px 10px;">
+                    <em> <?php echo $rec['message']; ?> </em>
+                </span>
+            </p>
+        <?php
+        }
+        $query->closeCursor();
+        ?>
+        <form method="post" action="index.php">
+            Déconnexion: <br>
+            <input type="submit" id="logoutbutton" value="déconnexion">
+            <input type="hidden" name="logout" id="logout" value="go">
+        </form>
+    <?php
+    }
+    ?>
 </body>
 </html>

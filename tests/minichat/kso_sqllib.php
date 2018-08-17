@@ -103,4 +103,29 @@
         //return $query.' called with params: '.print_r($paramAndValues);
     }
 
+    /* HOW TO CALL FUNCTION execWrittingQuerySecured():
+    try
+    {
+        $bdd = new PDO('mysql:host=localhost;dbname=test_ocr;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));//to get sql queries better errors
+    }
+    catch (Exception $e)
+    {
+        die('Erreur : '.$e->getMessage());
+    }
+    
+    $fieldsAndValues = array();
+    $andFieldsAndValues = array();
+    $whereFieldAndValue = array();
+    
+    array_push($fieldsAndValues,array("nickname", $nickname));
+    array_push($fieldsAndValues,array("message", $message));
+    array_push($whereFieldAndValue,array("nickname","saucisse"));
+    array_push($andFieldsAndValues,array("message","test modification via ma library"));
+
+    $query = execWrittingQuerySecured($bdd, "update", "simple_chat", $fieldsAndValues, $whereFieldAndValue, $andFieldsAndValues);
+    echo $query;
+    
+    */
+
+
 ?>
