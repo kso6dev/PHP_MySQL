@@ -73,5 +73,25 @@
         
         $query->closeCursor();
     ?>
+    <footer>
+        <?php 
+            include("kso_sqllib.php"); 
+            $fieldsAndValues = array();
+            $andFieldsAndValues = array();
+            $whereFieldAndValue = array();
+            /*
+            array_push($fieldsAndValues,array("nickname","saucisse"));
+            array_push($fieldsAndValues,array("message","test modification via ma library"));
+
+            array_push($whereFieldAndValue,array("nickname","saucisse"));
+            array_push($andFieldsAndValues,array("message","test modification via ma library"));
+
+            $query = execWrittingQuerySecured($bdd, "update", "simple_chat", $fieldsAndValues, $whereFieldAndValue, $andFieldsAndValues);
+            echo $query;
+            */
+        ?>
+
+        
+    </footer>
 </body>
 </html>
