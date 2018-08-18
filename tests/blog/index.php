@@ -32,7 +32,14 @@
             <section>
                 <h3>Liste des articles</h3>
                 <?php
-                    $query = $bdd->query('SELECT * FROM article ORDER BY creation_date DESC') or die (print_r($bdd->errorInfo()));
+                    $first = 0;
+                    if (isset($_GET['page']))
+                    {
+                        $pageno = (int) htmlspecialchars($_GET['page']);
+                        $first = $first + (($pageno - 1) * 3);
+
+                    }
+                    $query = $bdd->query('SELECT * FROM article ORDER BY creation_date DESC LIMIT '.$first.',3') or die (print_r($bdd->errorInfo()));
                     while ($rec = $query->fetch())
                     {
                 ?>
@@ -57,7 +64,7 @@
             </section>
             
             <footer>
-            
+                <?php include('pages.php'); ?>
             </footer>
         </div>
     </body>
