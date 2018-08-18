@@ -37,9 +37,11 @@
                     {
                         $id = (int) htmlspecialchars($_GET['id']);
                         
+                        //$query = $bdd->prepare('SELECT a.title as atitle, a.author as aauthor, a.id as aid, a.content as acontent, a.creation_date as acdate, 
+                        //                        a.modification_date as amdate, c.article_id, c.id as cid, c.creation_date as cdate, c.message as cmessage, c.nickname as cnick 
+                        //                        FROM article AS a LEFT JOIN comment AS c ON c.article_id = a.id WHERE a.id=:id');
                         $query = $bdd->prepare('SELECT a.title as atitle, a.author as aauthor, a.id as aid, a.content as acontent, a.creation_date as acdate, 
-                                                a.modification_date as amdate, c.article_id, c.id as cid, c.creation_date as cdate, c.message as cmessage, c.nickname as cnick 
-                                                FROM article AS a LEFT JOIN comment AS c ON c.article_id = a.id WHERE a.id=:id');
+                                                a.modification_date as amdate FROM article AS a WHERE a.id=:id');
                         $query->execute(array(
                             'id' => $id
                         )) or die (print_r($bdd->errorInfo()));
@@ -59,10 +61,25 @@
                             </p>
                         </article>
                         
+                        <?php $query->closeCursor(); ?>
+
                         <div id="comments">
                             <h3>Commentaires</h3>
                             <?php
-                            if ($rec['cmessage'] != '')
+                            $first = 0;
+                            if (isset($_GET['page']))
+                            {
+                                $pageno = (int) htmlspecialchars($_GET['page']);
+                                $first = $first + (($pageno - 1) * 3);
+        
+                            }
+                            $query = $bdd->prepare('SELECT c.article_id, c.id, c.creation_date as cdate, c.message as cmessage, c.nickname as cnick 
+                                                    FROM comment AS c WHERE c.article_id=:id ORDER BY c.id LIMIT '.$first.',5');
+                            $query->execute(array(
+                                'id' => $id
+                            )) or die (print_r($bdd->errorInfo()));
+
+                            while ($rec = $query->fetch())
                             {
                             ?>
                                 <p>
@@ -71,17 +88,30 @@
                                     <?php echo nl2br(htmlspecialchars($rec['cmessage'])); ?>
                                 </p>
                             <?php
-                            } 
+                            }
+                            $query->closeCursor();
                             ?>                            
+                            <form method="post" action="comment_post.php">
+                                Ajouter un commentaire: <br>
+                                <label for="nickname">Pseudo</label>: <input type="text" id="nickname" name="nickname">
+                                <textarea name="message" id="message" cols="50" rows="1"> </textarea>
+                                <input type="submit" id="submit" value="poster">
+                                <input type="hidden" id="articleid" name="articleid" value=<?php echo '"'.$id.'"' ?>>
+                            </form>
                         </div>
+
                 <?php  
-                        $query->closeCursor();
                     }
                 ?>
             </section>
             
             <footer>
-            
+            <?php 
+                $parentPageName = 'comments.php';
+                $tableToCount = 'comment';
+                $rangeToDisplay = 5;
+                include('pages.php'); 
+            ?>
             </footer>
         </div>
     </body>

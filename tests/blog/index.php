@@ -3,9 +3,6 @@
     this page is the blog main page. it displays a list of the 5 last articles
     */
 
-    //include my sql library
-    include("kso_sqllib.php");
-
     //init sql connexion
     try
     {
@@ -64,7 +61,12 @@
             </section>
             
             <footer>
-                <?php include('pages.php'); ?>
+                <?php 
+                $parentPageName = 'index.php';
+                $tableToCount = 'article';
+                $rangeToDisplay = 3;
+                include('pages.php'); 
+                ?>
             </footer>
         </div>
     </body>
