@@ -1,5 +1,12 @@
 <?php
-    $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount) or die (print_r($bdd->errorInfo()));
+    if ($parentPageName == "comments.php")
+    {
+        $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount.' WHERE article_id='.$id) or die (print_r($bdd->errorInfo()));
+    }
+    else
+    {
+        $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount) or die (print_r($bdd->errorInfo()));
+    }
     $rec = $query->fetch();
     $nbOfArticle = (int) $rec['acount'];
     $query->closeCursor();

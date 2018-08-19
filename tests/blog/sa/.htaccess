@@ -1,0 +1,4 @@
+AuthName "Protected blog admin page, please enter your login pwd to continue"
+AuthType Basic
+AuthUserFile "/opt/lampp/htdocs/tests/blog/sa/.htpasswd"
+Require valid-user

@@ -70,7 +70,7 @@
                             if (isset($_GET['page']))
                             {
                                 $pageno = (int) htmlspecialchars($_GET['page']);
-                                $first = $first + (($pageno - 1) * 3);
+                                $first = $first + (($pageno - 1) * 5);
         
                             }
                             $query = $bdd->prepare('SELECT c.article_id, c.id, c.creation_date as cdate, c.message as cmessage, c.nickname as cnick 
