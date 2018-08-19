@@ -83,7 +83,7 @@ if ($add)
             <label for="author">Auteur</label>: <input type="text" id="author" name="author" value="so6"> <br>
             <label for="title">Titre</label>: <input type="text" id="title" name="title"> <br>
             <textarea name="content" id="content" cols="100" rows="20"></textarea> <br>
-            <input type="submit" id="submit" name="submmit" value="Envoyer">
+            <input type="submit" id="submit" name="submit" value="Envoyer">
             <input type="hidden" id="add" name="add" value="add">
         </form>
     </body>

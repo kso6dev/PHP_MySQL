@@ -28,7 +28,10 @@
             </header>
             
             <section>
-                <h3>Liste des articles à modifier ou supprimer</h3>
+                <p>
+                    <a href="modifyorremove.php?a=1" title="insert">Insérer un nouvel article</a>,
+                </p>
+                <h3>Liste des articles</h3>
                 <?php
                     $first = 0;
                     if (isset($_GET['page']))
@@ -52,8 +55,8 @@
                                     <?php echo nl2br(htmlspecialchars($rec['content'])); ?>
                                 </span>
                                 <br>
-                                <a href=<?php echo '"modifyorremove.php?a=1&id='.htmlspecialchars($rec['id']).'"'; ?> title="modify">Modifier</a>, 
-                                <a href=<?php echo '"modifyorremove.php?a=2&id='.htmlspecialchars($rec['id']).'"'; ?> title="remove">Supprimer</a>
+                                <a href=<?php echo '"modifyorremove.php?a=2&id='.htmlspecialchars($rec['id']).'"'; ?> title="modify">Modifier</a>, 
+                                <a href=<?php echo '"modifyorremove.php?a=3&id='.htmlspecialchars($rec['id']).'"'; ?> title="remove">Supprimer</a>
                             </p>
                         </article>
                 <?php
