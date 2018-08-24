@@ -21,12 +21,8 @@ if (isset($_SESSION['nickname']))
         <?php include('navmenu.php'); ?>
     </header>
 
-        <?php
-        /*
         <h1>Bienvenue sur lasaucisseduweb, le site de la saucisse du web, plus connue sous le nom de soseji-k</h1>
-        */
-        ?>
-
+        
         <?php
         if ($index_session_nickname == '')
         {
@@ -36,7 +32,7 @@ if (isset($_SESSION['nickname']))
         {
             echo 'Bienvenue '.$index_session_nickname.', j\'espère que tu vas bien aujourd\'hui. <br>';
             ?>
-            <form method="post.php" action="logout_post.php">
+            <form method="post" action="logout_post.php">
                 <input type="submit" id="logoutbutton" value="Se déconnecter">
                 <input type="hidden" name="logout" value="go">
             </form>

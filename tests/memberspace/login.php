@@ -10,7 +10,7 @@
 </head>
 <body>
     <h3>Connexion</h3>
-    <form method="post.php" action="login_post.php">
+    <form method="post" action="login_post.php">
         <label for="nickname">Pseudo</label>: <input type="text" id="nickname" name="nickname">
         <br>
         <label for="pwd">Mot de passe</label>: <input type="password" id="pwd" name="pwd">

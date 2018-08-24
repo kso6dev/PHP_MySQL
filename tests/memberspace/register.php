@@ -10,14 +10,14 @@
 </head>
 <body>
     <h3>Inscription</h3>
-    <form method="post.php" action="register_post.php">
-        <label for="nickname">Pseudo</label>: <input type="text" id="nickname" name="nickname">
+    <form method="post" action="register_post.php">
+        <label for="nickname">Pseudo</label>: <input type="text" id="nickname" name="nickname" required>
         <br>
-        <label for="pwd">Mot de passe</label>: <input type="password" id="pwd" name="pwd">
+        <label for="pwd">Mot de passe</label>: <input type="password" id="pwd" name="pwd" required>
         <br>
-        <label for="pwdconfirm">Confirmer mot de passe</label>: <input type="password" id="pwdconfirm" name="pwdconfirm">
+        <label for="pwdconfirm">Confirmer mot de passe</label>: <input type="password" id="pwdconfirm" name="pwdconfirm" required>
         <br>
-        <label for="email">Mot de passe</label>: <input type="text" id="email" name="email">
+        <label for="email">Adresse e-mail</label>: <input type="text" id="email" name="email" required>
         <br>
         <input type="submit" id="accesstoregister" value="S'inscrire">
         <input type="hidden" name="accesstoregister" value="go">

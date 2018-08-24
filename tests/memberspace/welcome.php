@@ -1,6 +1,5 @@
 <p>
-    <?php
-    /*
+ 
     Alors, je te vois venir de loin, de très loin même. Parce que oui, j'ai des yeux de lynx ou d'aigle ou de faux con, bref je suis un chasseur!
     <br>
     Tu te demandes pourquoi la saucisse du web!
@@ -20,15 +19,9 @@
     <br>
     Mais, si tu souhaites t'inscrires, alors tu seras vraiment chez toi, et tu deviendras un membre, une saucisse, à part entière.
     <br>
-    */
-    ?>
     <a href="register.php" id="register" title="register">S'inscrire</a>  
-    <?php
-    /*
     <br>
     Et si tu es déjà une saucisse, alors tu n'as qu'à te connecter:
     <br>
-    */
-    ?>
     <a href="login.php" id="login" title="login">Se connecter</a>
 </p>
