@@ -1,4 +1,5 @@
 <ul>
+    <li><a href="index.php">Accueil</a></li>
     <li><a href="#">Jeux</a></li>
     <li><a href="#">Littérature</a></li>
     <li><a href="#">Cinéma</a></li>

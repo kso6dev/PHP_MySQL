@@ -3,6 +3,7 @@
     session_start();
 
     //end session
+    $_SESSION = array();
     session_destroy();
 
     //redirection to index.php

@@ -1,3 +1,10 @@
+<?php
+    $register_ermsg = '';
+    if (isset($_GET['ermsg']))
+    {
+        $register_ermsg = htmlspecialchars($_GET['ermsg']);
+    }
+?>
 <!DOCTYPE <!DOCTYPE html>
 <html lang="fr-FR">
 <head>
@@ -9,6 +16,9 @@
     <script src="main.js"></script>
 </head>
 <body>
+    <header>
+        <?php include('navmenu.php'); ?>
+    </header>
     <h3>Inscription</h3>
     <form method="post" action="register_post.php">
         <label for="nickname">Pseudo</label>: <input type="text" id="nickname" name="nickname" required>
@@ -22,5 +32,11 @@
         <input type="submit" id="accesstoregister" value="S'inscrire">
         <input type="hidden" name="accesstoregister" value="go">
     </form>
+    <?php
+        if ($register_ermsg != '')
+        {
+            echo '<div class="ermsg"><p>'.$register_ermsg.'</p></div>';
+        }
+    ?>
 </body>
 </html>

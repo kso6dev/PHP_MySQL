@@ -22,9 +22,9 @@
     {
         if ($register_post_error != '')
         {
-            $register_post_error += '\n';
+            $register_post_error .= '\n';
         }
-        $register_post_error += 'Vous devez renseigner un mot de passe.';
+        $register_post_error .= 'Vous devez renseigner un mot de passe.';
         $register_post_infook = false;
     }
     else
@@ -32,9 +32,9 @@
     {
         if ($register_post_error != '')
         {
-            $register_post_error += '\n';
+            $register_post_error .= '\n';
         }
-        $register_post_error += 'Vous devez confirmer votre mot de passe.';
+        $register_post_error .= 'Vous devez confirmer votre mot de passe.';
         $register_post_infook = false;
     }
     else
@@ -42,9 +42,9 @@
     {
         if ($register_post_error != '')
         {
-            $register_post_error += '\n';
+            $register_post_error .= '\n';
         }
-        $register_post_error += 'Vous avez renseigné 2 mots de passe différents.';
+        $register_post_error .= 'Vous avez renseigné 2 mots de passe différents.';
         $register_post_infook = false;
     } 
 
@@ -52,9 +52,9 @@
     {
         if ($register_post_error != '')
         {
-            $register_post_error += '\n';
+            $register_post_error .= '\n';
         }
-        $register_post_error += 'Vous devez renseigner une adresse mail valide.';
+        $register_post_error .= 'Vous devez renseigner une adresse mail valide.';
         $register_post_infook = false;
     }
 
@@ -74,6 +74,10 @@
         if ($register_post_error != '')
         {
             $register_post_redirection = 'Location: register.php?ermsg='.$register_post_error;
+        }
+        else
+        {
+            $_SESSION['nickname'] = $register_post_member['nickname'];
         }
     }
     

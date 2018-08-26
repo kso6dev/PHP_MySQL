@@ -3,6 +3,27 @@
     //include libraries
     include('kso_sqllib.php');
 
+    function isMember($nickname, $pwd)
+    {
+        $membergroupid = 0;
+
+        $bdd = connectToDB();
+        $query = $bdd->prepare('select * from member where nickname =:n');
+        $rec = $query->execute(array(
+            'n'=>$nickname
+        ));
+        if ($rec = $query->fetch())
+        {
+            if (password_verify($pwd, $rec['password']))
+            {
+                $membergroupid = $rec['member_groups_id'];
+            }
+        }
+        $query->closeCursor(); 
+
+        return $membergroupid;
+    }
+
     function registerMember($member)
     {
         addMembersGroup(5, 'visitor');
