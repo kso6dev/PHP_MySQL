@@ -1,11 +1,19 @@
 <?php
-    if ($parentPageName == "comments.php")
+    try
     {
-        $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount.' WHERE article_id='.$id) or die (print_r($bdd->errorInfo()));
+        $bdd = new PDO('mysql:host=localhost;dbname=test_ocr;charset=utf8', 'root', '', array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));//to get sql queries better errors
+    }
+    catch (Exception $e)
+    {
+        die('Erreur : '.$e->getMessage());
+    }
+    if ($action == 'listArticles')
+    {
+        $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount) or die (print_r($bdd->errorInfo()));
     }
     else
     {
-        $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount) or die (print_r($bdd->errorInfo()));
+        $query = $bdd->query('SELECT COUNT(*) as acount FROM '.$tableToCount.' WHERE article_id='.$id) or die (print_r($bdd->errorInfo()));
     }
     $rec = $query->fetch();
     $nbOfArticle = (int) $rec['acount'];
@@ -25,18 +33,19 @@
         echo 'Page: ';
         for ($i = 1; $i <= $nbOfPage; $i++)
         {
-            if ($parentPageName == 'comments.php')
+            if ($action == 'listArticles')
             {
-                echo '<a href="'.$parentPageName.'?id='.$id.'&page='.$i.'" title="pageno" >'.$i.'</a>';
+                echo '<a href="index.php?action='.$action.'&page='.$i.'" title="pageno" >'.$i.'</a>';
             }
             else
+            if ($action == 'showArticle')
             {
-                echo '<a href="'.$parentPageName.'?page='.$i.'" title="pageno" >'.$i.'</a>';
+                echo '<a href="index.php?action='.$action.'&id='.$id.'&page='.$i.'" title="pageno" >'.$i.'</a>';
             }
+
             if ($i < $nbOfPage)
             {
                 echo ',  ';
             }
         }
     }
-?>

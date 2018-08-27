@@ -40,5 +40,5 @@
     }
 
     //redirect to comments page
-    header('Location: comments.php?id='.$articleid);
+    header('Location: ../index.php?action=showArticle&id='.$articleid);
 ?>
