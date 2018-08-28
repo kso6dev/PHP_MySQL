@@ -37,12 +37,11 @@
             }
             $comments->closeCursor();
             ?>                            
-            <form method="post" action="model/comment_post.php">
+            <form method="post" action="index.php?action=addComment&amp;id=<?= $id ?>">
                 Ajouter un commentaire: <br>
                 <label for="nickname">Pseudo</label>: <input type="text" id="nickname" name="nickname">
                 <textarea name="message" id="message" cols="50" rows="1"> </textarea>
                 <input type="submit" id="submit" value="poster">
-                <input type="hidden" id="articleid" name="articleid" value=<?php echo '"'.$id.'"' ?>>
             </form>
         </div>
     <?php  

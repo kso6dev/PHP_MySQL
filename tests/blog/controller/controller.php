@@ -1,5 +1,12 @@
 <?php
 
+//chargement des classes
+require_once('model/ArticleManager.php');
+require_once('model/CommentManager.php');
+
+use \sosejik\tests\blog\model\ArticleManager;
+use \sosejik\tests\blog\model\CommentManager;
+
 function listArticles()
 {
     $first = 0;
@@ -12,8 +19,8 @@ function listArticles()
     $tableToCount = 'article';
     $rangeToDisplay = 3;
 
-    require('model/model.php');
-    $articles = getArticles($first, 3);
+    $articleManager = new ArticleManager();
+    $articles = $articleManager->getArticles($first, 3);
     require('view/articlesListView.php');
     $articles->closeCursor();
 }
@@ -28,9 +35,8 @@ function showArticle()
         
         if ($id != 0)
         {
-            require('model/model.php');
-
-            $article = getArticle($id);
+            $articleManager = new ArticleManager();
+            $article = $articleManager->getArticle($id);
 
             //comments mgt
             $first = 0;
@@ -39,7 +45,8 @@ function showArticle()
                 $pageno = (int) htmlspecialchars($_GET['page']);
                 $first = $first + (($pageno - 1) * 5);
             }
-            $comments = getComments($id, $first, 5);
+            $commentManager = new CommentManager();
+            $comments = $commentManager->getComments($id, $first, 5);
 
             $displaydata = true;
 
@@ -49,4 +56,19 @@ function showArticle()
         }
     }
     require('view/comments.php');
+}
+
+function addComment($nickname, $message, $articleid)
+{
+    $commentManager = new CommentManager();
+    $nbOfRec = $commentManager->insertComment($nickname, $message, $articleid);
+    
+    if ($nbOfRec === false)
+    {
+        throw new Exception('Impossible d\'ajouter le commentaire.');
+    }
+    else
+    {
+        header('Location: index.php?action=showArticle&id='.$articleid);
+    }
 }
