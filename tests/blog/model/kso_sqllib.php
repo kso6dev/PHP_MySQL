@@ -107,7 +107,7 @@
         return $nbOfRecProcessed;
 
         //for test, return query
-        //return $query.' called with params: '.print_r($paramAndValues);
+        //throw new Exception($query.' called with params: '.print_r($paramAndValues));
     }
 
     /* HOW TO CALL FUNCTION execWrittingQuerySecured():

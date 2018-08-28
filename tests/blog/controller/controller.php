@@ -72,3 +72,26 @@ function addComment($nickname, $message, $articleid)
         header('Location: index.php?action=showArticle&id='.$articleid);
     }
 }
+
+function updateComment($nickname, $message, $articleid, $commentid)
+{
+    $commentManager = new CommentManager();
+    $nbOfRec = $commentManager->modifyComment($nickname, $message, $articleid, $commentid);
+    
+    if ($nbOfRec === false)
+    {
+        throw new Exception('Impossible de modifier le commentaire.');
+    }
+    else
+    {
+        header('Location: index.php?action=showArticle&id='.$articleid);
+    }
+}
+
+function showComment($articleid, $commentid)
+{
+    $commentManager = new CommentManager();
+    $comment = $commentManager->getComment($articleid, $commentid);
+
+    require('view/comment.php');
+}

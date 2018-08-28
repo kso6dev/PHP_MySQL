@@ -29,8 +29,9 @@
             {
             ?>
                 <p>
-                    Pseudo: <?php echo htmlspecialchars($comment['cnick']); ?> <br>
-                    Date : <?php echo htmlspecialchars($comment['cdate']); ?> <br>
+                    <strong><?= htmlspecialchars($comment['cnick']) ?></strong> <?= htmlspecialchars($comment['cdate']) ?> 
+                    (<a href="index.php?action=showComment&amp;id=<?= $id ?>&amp;cid=<?= $comment['cid']?>" title="modify">modifier</a>)
+                    <br>
                     <?php echo nl2br(htmlspecialchars($comment['cmessage'])); ?>
                 </p>
             <?php

@@ -16,8 +16,42 @@ try
         {
             showArticle();
         }
+        if ($action == 'showComment')
+        {
+            if (isset($_GET['cid']) AND isset($_GET['id']))
+            {
+                $commentid = (int) htmlspecialchars($_GET['cid']);
+                $articleid = (int) htmlspecialchars($_GET['id']);
+                if ($commentid != 0 AND $articleid != 0)
+                {
+                    showComment($articleid, $commentid);
+                }
+                else
+                {
+                    if ($commentid == 0)
+                    {
+                        throw new Exception('aucun id de commentaire envoyé');
+                    }
+                    else
+                    {
+                        throw new Exception('aucun id d\'article envoyé');
+                    }
+                }
+            }
+            else
+            {
+                if (!isset($_GET['cid']))
+                {
+                    throw new Exception('aucun id de commentaire envoyé');
+                }
+                else
+                {
+                    throw new Exception('aucun id d\'article envoyé');
+                }
+            }
+        }
         else
-        if ($action == 'addComment')
+        if (($action == 'addComment') OR ($action == 'updateComment'))
         {
             if (isset($_GET['id']))
             {
@@ -30,7 +64,30 @@ try
                     $message = htmlspecialchars($_POST['message']);
                     if (($message != '') AND ($nickname != '') AND ($articleid != 0))
                     {
-                        addComment($nickname, $message, $articleid);
+                        if ($action == 'addComment')
+                        {
+                            addComment($nickname, $message, $articleid);
+                        }
+                        else
+                        if (($action == 'updateComment'))
+                        {
+                            if (isset($_GET['cid']))
+                            {
+                                $commentid = (int) htmlspecialchars($_GET['cid']);
+                                if ($commentid != 0)
+                                {
+                                    updateComment($nickname, $message, $articleid, $commentid);
+                                }
+                                else
+                                {
+                                    throw new Exception('aucun id de commentaire envoyé');
+                                }
+                            }
+                            else
+                            {
+                                throw new Exception('aucun id de commentaire envoyé');
+                            }
+                        }
                     }
                     else
                     {
