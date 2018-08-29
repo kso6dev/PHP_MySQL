@@ -1,5 +1,8 @@
 <?php
 
+namespace controller;
+
+
 class Logement
 {
     private $temperature;
