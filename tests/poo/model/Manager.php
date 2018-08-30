@@ -1,5 +1,8 @@
 <?php
 
+namespace model;
+use PDO;
+
 class Manager
 {
     protected $_db;

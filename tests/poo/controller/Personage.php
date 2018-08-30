@@ -90,15 +90,13 @@ class Personage
     private $_id;
     private $_name;
     
-    private $_xp;
-    private $_hp;
+    private $_xp = self::MIN_XP;
+    private $_hp = self::MAX_HP;
     
-    private $_atk;
-    private $_esc;
-    private $_str;
-    private $_def;
-    
-
+    private $_atk = self::DEFAULT_ATK;
+    private $_esc = self::DEFAULT_ESC;
+    private $_str = self::DEFAULT_STR;
+    private $_def = self::DEFAULT_DEF;
 
     //constants
     const MIN_XP = 1;
@@ -370,6 +368,16 @@ class Personage
     {
         
         echo $sentence;
+    }
+
+    public static function nameIsValid($name)
+    {
+        $book = false;
+        if ($name != '')
+        {
+            $book = true;
+        }
+        return $book;
     }
 
     public static function addCharNb()

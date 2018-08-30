@@ -2,12 +2,12 @@
 <html lang="fr-FR">
     <head>
         <meta charset="utf-8" />
-        <title>Intro</title>
+        <title>Hero game</title>
         <link rel="stylesheet" type="text/css" media="screen" href="public/css/main.css" />
     </head>
     <body>
         <div id="main_wrapper">
-            <h1>Choose your hero</h1>
+            <h1>Play with your hero!</h1>
             <form method="post" action="index.php">
                 <p>
                     <label for="name">Name</label>: <input type="text" id="name" name="name" maxlength="30">

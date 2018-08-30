@@ -1,15 +1,19 @@
 <?php
 
+namespace model;
 use \controller\Personage;
-
-require_once('model/Manager.php');
+use PDO;
 
 class PersonageManager extends Manager
 {
 
-    public function get($id)
+    public function __construct()
     {
         $this->connectDB();
+    }
+    
+    public function get($id)
+    {
         $perso = null;
         try
         {
