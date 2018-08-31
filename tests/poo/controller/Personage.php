@@ -2,7 +2,7 @@
 
 namespace controller;
 
-class Personage
+abstract class Personage
 {
     //constructor
     //public function __construct($id, $name, $xp, $hp, $atk, $esc, $str, $def)
@@ -20,9 +20,67 @@ class Personage
         $this->setStr($str);
         $this->setDef($def);
         */
+
+        $className = static::class; //permet d'obtenir le nom de la class qui appelle (ici le constructeur donc le nom de la classe qui est instanciée)
+        //$className = self::class; renverrait le nom de la classe dans laquelle on se trouve donc personage
+        $className = ltrim($className, '\\'); //le nom de la class contient aussi le namespace et on en veut pas
+        if ($lastNsPos = strrpos($className, '\\')) 
+        {
+            $className = substr($className, $lastNsPos + 1);
+            $this->_type = $className;
+        }
         self::addCharNb();
     }
-    
+
+    public function __destruct()
+    {
+        //se déclenche quand obj detruit
+    }
+
+    public function __set($name, $value)
+    {
+        //se déclenche quand on tente de set un attr qui n'existe pas
+        echo 'attribut ' .$name . ' inconnu. Impossible de lui assigner la valeur ' .$value . '. Enfin si en vrai.. Fais un get tu verras tout est prévu dans mon code! <br>';
+        $this->_newAttributes[$name] = $value; //on peut stocker les nouveaux attributs dans une var prévue, c'est comme ça qu'on créé des attr à la volée
+    }
+
+    public function __get($name)
+    {
+        //se déclenche quand on tente de set un attr qui n'existe pas
+        //echo 'attribut ' .$name . ' inconnu. Impossible de récupérer sa valeur. <br>';
+        if (isset($this->_newAttributes[$name]))
+        {
+            return $this->_newAttributes[$name];//on renvoit la valeur de l'attribut s'il existe dans notre tableau d'attributs => c'est dynamique!
+        }
+    }
+
+    public function __isset($name)
+    {
+        //se déclenche quand on test si un vrai attribut existe et qu'il n'existe pas ou n'est pas accessible => isset(vraiAttr) renvoie faux
+        //dans ce cas on peut renvoyer la valeur de isset sur nos attributs dynamiques!
+        return isset($this->_newAttributes[$name]);
+    }
+
+    public function __unset($name)
+    {
+        //se déclenche quand on veut unset un vrai attribut et qu'il n'existe pas ou n'est pas accessible 
+        //dans ce cas on peut unset l'attribut s'il existe dans nos attributs dynamiques!
+        if (isset($this->_newAttributes[$name]))
+        {
+            unset($this->_newAttributes[$name]);
+        }
+    }
+
+    public function __call($name, $args)
+    {
+        //se déclenche quand on veut invoquer une méthode qui n'existe pas ou à laquelle on n'a pas accès
+    }
+
+    public static function __callStatic($name, $args)
+    {
+        //se déclenche quand on veut invoquer une méthode statique qui n'existe pas ou à laquelle on n'a pas accès
+    }
+
     public function set($id, $name, $xp, $hp, $atk, $esc, $str, $def)
     {
         $this->setId($id);
@@ -87,16 +145,19 @@ class Personage
     }
 
     //attributes
-    private $_id;
-    private $_name;
+    protected $_id;
+    protected $_name;
+    protected $_type;
     
-    private $_xp = self::MIN_XP;
-    private $_hp = self::MAX_HP;
+    protected $_xp = self::MIN_XP;
+    protected $_hp = self::MAX_HP;
     
-    private $_atk = self::DEFAULT_ATK;
-    private $_esc = self::DEFAULT_ESC;
-    private $_str = self::DEFAULT_STR;
-    private $_def = self::DEFAULT_DEF;
+    protected $_atk = self::DEFAULT_ATK;
+    protected $_esc = self::DEFAULT_ESC;
+    protected $_str = self::DEFAULT_STR;
+    protected $_def = self::DEFAULT_DEF;
+
+    protected $_newAttributes = []; 
 
     //constants
     const MIN_XP = 1;
@@ -124,6 +185,10 @@ class Personage
     const ATK_STATUS = 'is attacking';
 
     //getters setters
+    public function type()
+    {
+        return $this->_type;
+    }
     public function id()
     {
         return $this->_id;
@@ -292,6 +357,11 @@ class Personage
         }
     }
 
+    public function getNewAttribute($name)
+    {
+        return $this->_newAttributes[$name];
+    }
+
     //methods
     public function attack(Character $opponent)
     {
@@ -349,6 +419,7 @@ class Personage
     public function display()
     {
         echo 'name: ' . $this->name() . '<br>';
+        echo 'type: ' . $this->type() . '<br>';
         echo 'Xp: ' . $this->xp() . '<br>';
         echo 'Hp: ' . $this->hp() . '<br>';
         echo 'Str: ' . $this->str() . '<br>';
@@ -361,13 +432,13 @@ class Personage
     public static function speakdef()
     {
        
-        echo self::$_speach.self::$_charnb.'! ';
+        echo self::$_speach.self::$_charnb.'! <br>';
     }
 
     public static function speak($sentence)
     {
         
-        echo $sentence;
+        echo $sentence . '<br>';
     }
 
     public static function nameIsValid($name)
@@ -386,6 +457,6 @@ class Personage
     }
 
     //statics attributes
-    private static $_speach = 'Bonjour, je suis le personnage n°';
-    private static $_charnb = 0;
+    protected static $_speach = 'Bonjour, je suis le personnage n°';
+    protected static $_charnb = 0;
 }

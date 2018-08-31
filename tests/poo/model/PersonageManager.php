@@ -1,23 +1,19 @@
 <?php
 
 namespace model;
+use \controller\Magician;
 use \controller\Personage;
+use \controller\Barbarian;
 use PDO;
 
 class PersonageManager extends Manager
 {
-
-    public function __construct()
-    {
-        $this->connectDB();
-    }
-    
     public function get($id)
     {
         $perso = null;
         try
         {
-            $query = $this->_db->prepare('SELECT id, name, xp, hp, atk, esc, str, def FROM Personage WHERE id=:id');
+            $query = $this->_db->prepare('SELECT id, name, xp, hp, atk, esc, str, def, type FROM Personage WHERE id=:id');
             $query->execute(array(
                 'id' => $id
             ));// or die (print_r($db->errorInfo()));
@@ -26,7 +22,14 @@ class PersonageManager extends Manager
             {
                 //$perso = new Personage((int)$rec['id'], $rec['name'], (int)$rec['xp'], (int)$rec['hp'], 
                 //                            (int)$rec['atk'], (int)$rec['esc'], (int)$rec['str'], (int)$rec['def']);
-                $perso = new Personage();
+                if ($rec['type'] == 'Magician')
+                {
+                    $perso = new Magician();
+                }
+                if ($rec['type'] == 'Barbarian')
+                {
+                    $perso = new Barbarian();
+                }
                 $perso->hydrate($rec);
             }
 
@@ -43,19 +46,28 @@ class PersonageManager extends Manager
     public function getList()
     {
         $persos = [];
-        $query = $this->_db->query('SELECT id, name, xp, hp, atk, esc, str, def FROM Personage');
+        $query = $this->_db->query('SELECT id, name, xp, hp, atk, esc, str, def, type FROM Personage');
         while ($rec = $query->fetch())
         {
-            $perso = new Personage();
+            if ($rec['type'] == 'Magician')
+            {
+                $perso = new Magician();
+            }
+            if ($rec['type'] == 'Barbarian')
+            {
+                $perso = new Barbarian();
+            }
             $perso->hydrate($rec);
             $persos[] = $perso;
         }
+        $query->closeCursor();
+
         return $persos;
     }
 
     public function add(Personage $perso)
     {
-        $query = $this->_db->prepare('INSERT INTO Personage(name, xp, hp, atk, esc, str, def) VALUES(:name, :xp, :hp, :atk, :esc, :str, :def)');
+        $query = $this->_db->prepare('INSERT INTO Personage(name, xp, hp, atk, esc, str, def, type) VALUES(:name, :xp, :hp, :atk, :esc, :str, :def, :type)');
         $query->execute(array(
             'name' => $perso->name(),
             'xp' => $perso->xp(),
@@ -63,13 +75,15 @@ class PersonageManager extends Manager
             'atk' => $perso->atk(),
             'esc' => $perso->esc(),
             'str' => $perso->str(),
-            'def' => $perso->def()
+            'def' => $perso->def(),
+            'type' => $perso->type()
         ));
+        $query->closeCursor();
     }
 
     public function update(Personage $perso)
     {
-        $query = $this->_db->prepare('UPDATE Personage SET name=:name, xp=:xp, hp=:hp, atk=:atk, esc=:esc, str=:str, def=:def WHERE id=:id');
+        $query = $this->_db->prepare('UPDATE Personage SET name=:name, xp=:xp, hp=:hp, atk=:atk, esc=:esc, str=:str, def=:def, type=:type WHERE id=:id');
         $query->execute(array(
             'id' => $perso->id(),
             'name' => $perso->name(),
@@ -78,8 +92,10 @@ class PersonageManager extends Manager
             'atk' => $perso->atk(),
             'esc' => $perso->esc(),
             'str' => $perso->str(),
-            'def' => $perso->def()
+            'def' => $perso->def(),
+            'type' => $perso->type()
         ));
+        $query->closeCursor();
     }
 
     public function delete(Personage $perso)

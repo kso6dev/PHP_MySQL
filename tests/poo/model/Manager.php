@@ -3,8 +3,13 @@
 namespace model;
 use PDO;
 
-class Manager
+abstract class Manager
 {
+    public function __construct()
+    {
+        $this->connectDB();
+    }
+
     protected $_db;
 
     protected function connectDB()
