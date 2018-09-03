@@ -2,7 +2,7 @@
 
 namespace controller;
 
-abstract class Personage
+abstract class Personage implements iMovable
 {
     //constructor
     //public function __construct($id, $name, $xp, $hp, $atk, $esc, $str, $def)
@@ -29,6 +29,13 @@ abstract class Personage
             $className = substr($className, $lastNsPos + 1);
             $this->_type = $className;
         }
+        self::addCharNb();
+    }
+
+    public function __clone()
+    {
+        //se déclenche quand un objet est créé par clone
+        //comme le nouvel objet est un clone du précédent, le constructeur n'est pas appelé donc il faut ici gérer les particularités qu'on gérait dans construct
         self::addCharNb();
     }
 
@@ -428,6 +435,11 @@ abstract class Personage
         echo 'Esc: ' . $this->esc() . '<br>';
     }
 
+    public function move($dest)
+    {
+        //function mandatory because implemented from interface iMovable
+    }
+
     //statics methods
     public static function speakdef()
     {
@@ -456,6 +468,7 @@ abstract class Personage
         self::$_charnb = self::$_charnb + 1;
     }
 
+    
     //statics attributes
     protected static $_speach = 'Bonjour, je suis le personnage n°';
     protected static $_charnb = 0;

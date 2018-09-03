@@ -66,10 +66,16 @@ class Connexion
             $this->_db = new PDO('mysql:host=' . $this->_server . ';dbname=' . $this->_dbname . ';charset=utf8', 
                 $this->_user, $this->_pwd, array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION));//to get sql queries better errors
         }
+        catch (PDOException $e) // On attrape les exceptions PDOException.
+        {
+            echo 'La connexion a échoué.<br />';
+            echo 'Informations : [', $e->getCode(), '] ', $e->getMessage(); // On affiche le n° de l'erreur ainsi que le message.
+        }        
         catch (Exception $e)
         {
             $errorMessage = $e->getMessage();
             require('view/errorView.php');
         }
+
     }
 }
