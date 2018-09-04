@@ -9,7 +9,8 @@ use \controller\Barbarian;
 use \model\Connexion;
 use \controller\ClassOCR;
 use \controller\MyException;
-use controller\MyErrorException;
+use \controller\MyErrorException;
+use \controller\Mailer;
 
 function chargeClass($className)
 {
@@ -248,3 +249,6 @@ function customexception($e)
 }
 //il faut ensuite faire en sorte qu'elle s'exécute quand il y a une exception non catchée
 set_exception_handler('customexception');
+
+$m = new Mailer;
+$m->send('Hello world!');
